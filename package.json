@@ -1,0 +1,49 @@
+{
+    "name": "69-abbr-title-tap",
+    "version": "1.0.0",
+    "description": "Provides <abbr> tap behavior on mobile, mimicking desktop hover.",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "test:e2e": "npm run check-types && npm run test",
+        "test": "npx playwright test --config tests/e2e/.ancillary/config/playwright.config.ts --project chromium",
+        "check-types": "npx tsc --noEmit --project ."
+    },
+    "author": {
+        "name": "Valentine Shi",
+        "email": "valentineshi.dev@gmail.com",
+        "url": "https://valentineshi.dev"
+    },
+    "license": "MIT",
+    "homepage": "https://github.com/WhereJuly/68-null-object#readme",
+    "issues": "https://github.com/WhereJuly/68-null-object/issues",
+    "keywords": [
+        "abbr",
+        "abbreviation",
+        "title",
+        "tooltip",
+        "hover",
+        "tap",
+        "mobile",
+        "touch",
+        "mobile-hover",
+        "tooltip-on-tap",
+        "abbr-tag"
+    ],
+    "devDependencies": {
+        "@eslint/js": "^9.30.1",
+        "@playwright/test": "^1.53.2",
+        "@tsconfig/node20": "^20.1.6",
+        "@types/node": "^24.0.10",
+        "@typescript-eslint/eslint-plugin": "^8.35.1",
+        "@typescript-eslint/parser": "^8.35.1",
+        "cpy-cli": "^5.0.0",
+        "eslint": "^9.30.1",
+        "markdown-link-check": "^3.13.7",
+        "rimraf": "^6.0.1",
+        "tsc-alias": "^1.8.16",
+        "tsx": "^4.20.3",
+        "typescript": "^5.8.3",
+        "typescript-eslint": "^8.35.1"
+    }
+}
