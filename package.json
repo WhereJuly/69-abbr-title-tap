@@ -1,7 +1,7 @@
 {
     "name": "69-abbr-title-tap",
     "version": "1.0.0",
-    "description": "Provides <abbr> tap behavior on mobile, mimicking desktop hover.",
+    "description": "A drop-in replacement for <abbr title='...'> tag tap behavior on mobile devices, simulating desktop hover effects.",
     "type": "module",
     "main": "index.js",
     "scripts": {
