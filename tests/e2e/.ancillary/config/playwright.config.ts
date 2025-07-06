@@ -13,7 +13,8 @@ const testRoot = `${projectRoot}tests/e2e`;
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-    testDir: `${testRoot}/integration`,
+    // INFO: It is impossible to set multiple folders for tests except as this way.
+    testDir: `${testRoot}/_tests`, 
     testMatch: '**/*.test.ts',
     outputDir: `${testRoot}/.ancillary/.outputs`,
     globalSetup: `${testRoot}/.ancillary//bootstrap/setup.ts`,

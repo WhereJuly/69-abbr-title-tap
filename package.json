@@ -5,6 +5,7 @@
     "type": "module",
     "main": "index.js",
     "scripts": {
+        "build:test": "npx esbuild tests/e2e/.ancillary/fixtures/initialization.ts --bundle --outfile=.delivery/.builds/test/initialization.js --format=esm --target=es2017",
         "test:e2e": "npm run check-types && npm run test",
         "test": "npx playwright test --config tests/e2e/.ancillary/config/playwright.config.ts --project chromium",
         "check-types": "npx tsc --noEmit --project ."
