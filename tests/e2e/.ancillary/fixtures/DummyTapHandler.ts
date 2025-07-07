@@ -2,27 +2,19 @@
 
 import { ATapHandler } from '@src/ATapHandler.js';
 
-export default class DummyTapHandler extends ATapHandler {
+export const ATT_CLASS_ON = 'att-on';
 
-    private _isOn: boolean;
+export default class DummyTapHandler extends ATapHandler {
 
     constructor() {
         super();
-
-        this._isOn = false;
     }
 
     public handle(el: HTMLElement): void {
         this.el = el;
+        document.querySelectorAll('abbr').forEach(el => el.classList.remove(ATT_CLASS_ON));
 
-        console.log('replace with actual behavior...');
-        console.log(`el: ${this.el?.tagName}`);
-
-        this._isOn = true;
-    }
-
-    public get isOn(): boolean {
-        return this._isOn;
+        this.el.classList.add(ATT_CLASS_ON);
     }
 
 }
