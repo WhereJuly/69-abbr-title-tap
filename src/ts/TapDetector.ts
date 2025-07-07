@@ -1,6 +1,6 @@
 'use strict';
 
-import { ATapHandler } from '@src/ATapHandler.js';
+import { ATapHandler } from '@src/ts/ATapHandler.js';
 
 type TOuterTapTrapElement = Document | HTMLElement;
 

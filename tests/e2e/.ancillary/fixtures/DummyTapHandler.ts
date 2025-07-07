@@ -1,6 +1,6 @@
 'use strict';
 
-import { ATapHandler } from '@src/ATapHandler.js';
+import { ATapHandler } from '@src/ts/ATapHandler.js';
 
 export const ATT_CLASS_ON = 'att-on';
 

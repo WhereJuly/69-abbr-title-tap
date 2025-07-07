@@ -1,4 +1,4 @@
-import TapDetector from '@src/TapDetector.ts';
+import TapDetector from '@src/ts/TapDetector.ts';
 import DummyTapHandler from '@tests/e2e/.ancillary/fixtures/DummyTapHandler.ts';
 
 declare global {
