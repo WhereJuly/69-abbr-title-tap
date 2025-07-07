@@ -6,7 +6,7 @@
     "main": "index.js",
     "scripts": {
         "build:test": "npx esbuild tests/e2e/.ancillary/fixtures/initialization.ts --bundle --outfile=.delivery/.builds/test/initialization.js --format=esm --target=es2017",
-        "test:e2e": "npm run check-types && npm run test",
+        "test:e2e": "npm run check-types && npm run build:test && npm run test",
         "test": "npx playwright test --config tests/e2e/.ancillary/config/playwright.config.ts --project chromium",
         "check-types": "npx tsc --noEmit --project ."
     },
@@ -41,6 +41,7 @@
         "cpy-cli": "^5.0.0",
         "eslint": "^9.30.1",
         "markdown-link-check": "^3.13.7",
+        "playwright-hierarchy-reporter": "^1.1.0",
         "rimraf": "^6.0.1",
         "tsc-alias": "^1.8.16",
         "tsx": "^4.20.3",

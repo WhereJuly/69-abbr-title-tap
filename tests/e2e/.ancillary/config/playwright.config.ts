@@ -9,12 +9,13 @@ const root = pathToFileURL(cwd()).toString();
 const projectRoot = fileURLToPath(new URL('../../../../', import.meta.url));
 const testRoot = `${projectRoot}tests/e2e`;
 
+console.log(projectRoot);
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
     // INFO: It is impossible to set multiple folders for tests except as this way.
-    testDir: `${testRoot}/_tests`, 
+    testDir: `${testRoot}/_tests`,
     testMatch: '**/*.test.ts',
     outputDir: `${testRoot}/.ancillary/.outputs`,
     globalSetup: `${testRoot}/.ancillary//bootstrap/setup.ts`,
@@ -30,7 +31,9 @@ export default defineConfig({
 
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: [
-        ['list', { printSteps: true }],
+        // ['list', { printSteps: true }],
+        ['playwright-hierarchy-reporter']
+        // ['json', { outputFile: `${testRoot}/.ancillary/.reports/json/report.json` }],
         // ['html', { outputFolder: `${testRoot}/.ancillary/.reports/html` }] // NB: Example
     ],
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
