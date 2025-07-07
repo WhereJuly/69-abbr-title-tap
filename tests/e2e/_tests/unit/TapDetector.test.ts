@@ -1,6 +1,6 @@
 'use strict';
 
-import { test, expect, TestInfo, PlaywrightTestArgs, Page } from '@playwright/test';
+import { test, expect, TestInfo, PlaywrightTestArgs } from '@playwright/test';
 
 import { htmlContent, retrieveTagName } from '@tests/e2e/.ancillary/helpers/helpers.js';
 
