@@ -7,8 +7,8 @@
 }
 
 abbr {
-    --title-top: auto;
-    --title-left: auto;
+    @{abbr-title-top-variable}: auto;
+    @{abbr-title-left-variable}: auto;
 
     &:after {
         display: none;
@@ -16,8 +16,8 @@ abbr {
         position: absolute;
 
         // These are set via JS
-        top: var(--title-top);
-        left: var(--title-left);
+        top: var(@abbr-title-top-variable);
+        left: var(@abbr-title-left-variable);
 
         max-width: 90vw;
         color: @color-cod-gray;
