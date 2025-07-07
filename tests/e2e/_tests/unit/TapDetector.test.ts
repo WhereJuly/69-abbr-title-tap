@@ -2,7 +2,7 @@
 
 import { test, expect, TestInfo, PlaywrightTestArgs } from '@playwright/test';
 
-import { htmlContent } from '@tests/e2e/.ancillary/helpers/helpers.js';
+import { hasVisibleAfter, htmlContent } from '@tests/e2e/.ancillary/helpers/helpers.js';
 import { ATT_CLASS_ON } from '@tests/e2e/.ancillary/fixtures/DummyTapHandler.js';
 
 test.describe('Basic TapDetector Test', () => {
@@ -14,6 +14,7 @@ test.describe('Basic TapDetector Test', () => {
 
         // WARNING: Run `npm run build:test` after update and before using it here 
         await page.addScriptTag({ path: '.delivery/.builds/test/initialization.js', type: 'module' });
+        await page.addStyleTag({ path: '.delivery/.builds/test/styles.css' });
 
         // Forward all console messages from page to Node.js console
         page.on('console', msg => { console.log(`PAGE LOG [${msg.type()}]: ${msg.text()}`); });
@@ -23,7 +24,7 @@ test.describe('Basic TapDetector Test', () => {
         expect(page).toBeTruthy();
 
         const abbr = page.locator('abbr').first();
-        abbr.waitFor();
+        await abbr.waitFor();
 
         // Act
         await abbr?.dispatchEvent('touchstart');
@@ -38,14 +39,14 @@ test.describe('Basic TapDetector Test', () => {
         expect(page).toBeTruthy();
 
         const abbr1 = page.locator('abbr').first();
-        abbr1.waitFor();
+        await abbr1.waitFor();
 
         // Arrange
         await abbr1?.dispatchEvent('touchstart');
         await abbr1?.dispatchEvent('touchend');
 
         const abbr2 = page.locator('abbr').last();
-        abbr2.waitFor();
+        await abbr2.waitFor();
 
         // Act
         await abbr2?.dispatchEvent('touchstart');
@@ -56,18 +57,13 @@ test.describe('Basic TapDetector Test', () => {
 
         expect(class1).toEqual('');
         expect(class2).toEqual(ATT_CLASS_ON);
-    });
 
-    test.describe('Dummy Nested Suite Test', () => {
+        const abbr1HasVisibleAfter = await hasVisibleAfter(abbr1);
+        const abbr2HasVisibleAfter = await hasVisibleAfter(abbr2);
 
-        test('Example 1', async ({ page }: PlaywrightTestArgs) => {
-            expect(page).toBeTruthy();
-        });
-
-        test('Example 2', async ({ page }: PlaywrightTestArgs) => {
-            expect(page).toBeTruthy();
-        });
-
+        expect(abbr1HasVisibleAfter).toEqual(false);
+        expect(abbr2HasVisibleAfter).toEqual(true);
     });
 
 });
+

@@ -1,0 +1,29 @@
+.@{class-title-on} {
+    abbr& {
+        &:after {
+            display: block;
+        }
+    }
+}
+
+abbr {
+    --title-top: auto;
+    --title-left: auto;
+
+    &:after {
+        display: none;
+        content: attr(title);
+        position: absolute;
+
+        // These are set via JS
+        top: var(--title-top);
+        left: var(--title-left);
+
+        max-width: 90vw;
+        color: @color-cod-gray;
+        background-color: @color-white;
+        border: 1px solid @color-gray;
+        padding: 4px 8px;
+        font-size: 0.7em;
+    }
+}
