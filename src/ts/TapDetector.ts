@@ -38,8 +38,10 @@ export default class TapDetector {
     };
 
     private handleTouchEnd(event: TouchEvent) {
-        const target = (event.target as HTMLElement).closest(this.selector);
-        if (this.touchMoved || !target || target !== this.tapTarget) { return; }
+        // NB: Touchend not in abbr tag set the tap handler target to document element.
+        const target = (event.target as HTMLElement).closest(this.selector) ?? document;
+
+        if (this.touchMoved || !target) { return; }
 
         const inProcessTarget = this.tapTarget as HTMLElement;
         // INFO: To avoid operations on the same element if `touchstart` happens within `tapHandler` 

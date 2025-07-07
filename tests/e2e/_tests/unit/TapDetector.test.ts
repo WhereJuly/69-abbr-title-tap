@@ -38,6 +38,8 @@ test.describe('Basic TapDetector Test', () => {
     test('Should remove classes from the first tapped <abbr> when tap on second <abbr>', async ({ page }: PlaywrightTestArgs) => {
         expect(page).toBeTruthy();
 
+        await page.pause();
+
         const abbr1 = page.locator('abbr').first();
         await abbr1.waitFor();
 
