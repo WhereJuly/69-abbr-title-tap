@@ -27,6 +27,9 @@ export default class TapDetector {
         this.outerTapTrapElement.addEventListener('touchend', this.handleTouchEnd as EventListener);
     }
 
+    /**
+     * NB: If `touchstart` happens outside `this.selector` element, `this.tapTarget` gets null value.
+     */
     private handleTouchStart(event: TouchEvent) {
         const target = (event.target as HTMLElement).closest(this.selector);
         this.tapTarget = target;
@@ -37,13 +40,15 @@ export default class TapDetector {
         this.touchMoved = true;
     };
 
-    private handleTouchEnd(event: TouchEvent) {
-        // NB: Touchend not in abbr tag set the tap handler target to document element.
-        const target = (event.target as HTMLElement).closest(this.selector) ?? document;
+    private handleTouchEnd(_event: TouchEvent) {
+        // NB: If `touchstart` was outside `this.selector` element, `this.tapTarget` is null.
+        // Then we set the tap handler target to document element.
+        const target = this.tapTarget ?? document;
 
         if (this.touchMoved || !target) { return; }
 
-        const inProcessTarget = this.tapTarget as HTMLElement;
+        const inProcessTarget = target as HTMLElement;
+
         // INFO: To avoid operations on the same element if `touchstart` happens within `tapHandler` 
         this.tapTarget = null;
 

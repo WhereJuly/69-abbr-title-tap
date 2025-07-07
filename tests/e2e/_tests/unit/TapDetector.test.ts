@@ -1,9 +1,8 @@
 'use strict';
 
-import { test, expect, TestInfo, PlaywrightTestArgs } from '@playwright/test';
+import { test, expect, TestInfo, PlaywrightTestArgs, Page } from '@playwright/test';
 
-import { hasVisibleAfter, htmlContent } from '@tests/e2e/.ancillary/helpers/helpers.js';
-import { ATT_CLASS_ON } from '@tests/e2e/.ancillary/fixtures/DummyTapHandler.js';
+import { htmlContent, retrieveTagName } from '@tests/e2e/.ancillary/helpers/helpers.js';
 
 test.describe('Basic TapDetector Test', () => {
 
@@ -20,52 +19,47 @@ test.describe('Basic TapDetector Test', () => {
         page.on('console', msg => { console.log(`PAGE LOG [${msg.type()}]: ${msg.text()}`); });
     });
 
-    test('Should successfully tap on first <abbr>', async ({ page }: PlaywrightTestArgs) => {
+    test.describe('Should successfully call the tap handler', () => {
+        
+        dataProvider_call_tap_handler().forEach((data) => {
+            test(`Tap on: ${data.name}`, async ({ page }: PlaywrightTestArgs) => {
+                expect(page).toBeTruthy();
+
+                const locator = page.locator(data.selector);
+                await locator.waitFor();
+
+                // Act
+                await locator?.dispatchEvent('touchstart');
+                await locator?.dispatchEvent('touchend');
+
+                // Assert
+                const actual = await retrieveTagName(page);
+                expect(actual).toEqual(data.expected);
+            });
+        });
+
+    });
+
+    test('Should not call tap handler on absent `touchend` event', async ({ page }: PlaywrightTestArgs) => {
         expect(page).toBeTruthy();
 
-        const abbr = page.locator('abbr').first();
+        const abbr = page.locator('abbr').last();
         await abbr.waitFor();
 
         // Act
         await abbr?.dispatchEvent('touchstart');
-        await abbr?.dispatchEvent('touchend');
 
         // Assert
-        const class1 = await abbr.getAttribute('class');
-        expect(class1).toEqual(ATT_CLASS_ON);
+        const actual = await retrieveTagName(page);
+        expect(actual).toEqual(null);
     });
 
-    test('Should remove classes from the first tapped <abbr> when tap on second <abbr>', async ({ page }: PlaywrightTestArgs) => {
-        expect(page).toBeTruthy();
-
-        await page.pause();
-
-        const abbr1 = page.locator('abbr').first();
-        await abbr1.waitFor();
-
-        // Arrange
-        await abbr1?.dispatchEvent('touchstart');
-        await abbr1?.dispatchEvent('touchend');
-
-        const abbr2 = page.locator('abbr').last();
-        await abbr2.waitFor();
-
-        // Act
-        await abbr2?.dispatchEvent('touchstart');
-        await abbr2?.dispatchEvent('touchend');
-
-        const class1 = await abbr1.getAttribute('class');
-        const class2 = await abbr2.getAttribute('class');
-
-        expect(class1).toEqual('');
-        expect(class2).toEqual(ATT_CLASS_ON);
-
-        const abbr1HasVisibleAfter = await hasVisibleAfter(abbr1);
-        const abbr2HasVisibleAfter = await hasVisibleAfter(abbr2);
-
-        expect(abbr1HasVisibleAfter).toEqual(false);
-        expect(abbr2HasVisibleAfter).toEqual(true);
-    });
+    function dataProvider_call_tap_handler() {
+        return [
+            { name: 'First abbr', selector: 'abbr:first-of-type', expected: 'abbr' },
+            { name: 'Last abbr', selector: 'abbr:last-of-type', expected: 'abbr' },
+            { name: 'body', selector: 'body', expected: 'document' }
+        ];
+    }
 
 });
-

@@ -1,7 +1,7 @@
 'use strict';
 
 import fs from 'fs';
-import { Locator, TestInfo } from '@playwright/test';
+import { Locator, Page, TestInfo } from '@playwright/test';
 
 export const htmlContent = (fileName: string, testInfo: TestInfo) => {
     const root = testInfo.config.rootDir;
@@ -13,5 +13,12 @@ export const htmlContent = (fileName: string, testInfo: TestInfo) => {
 export async function hasVisibleAfter(locator: Locator): Promise<boolean> {
     return await locator.evaluate(el => {
         return getComputedStyle(el, '::after')?.display !== 'none';
+    });
+};
+
+
+export async function retrieveTagName(page: Page): Promise<string | null> {
+    return await page.evaluate(() => {
+        return window.__ABBR_TAP_HANDLER__.tagName;
     });
 };

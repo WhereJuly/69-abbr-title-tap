@@ -9,7 +9,6 @@ const root = pathToFileURL(cwd()).toString();
 const projectRoot = fileURLToPath(new URL('../../../../', import.meta.url));
 const testRoot = `${projectRoot}tests/e2e`;
 
-console.log(projectRoot);
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -21,7 +20,7 @@ export default defineConfig({
     globalSetup: `${testRoot}/.ancillary//bootstrap/setup.ts`,
 
     /* Run tests in files in parallel */
-    fullyParallel: true,
+    fullyParallel: false,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
     /* Retry on CI only */
