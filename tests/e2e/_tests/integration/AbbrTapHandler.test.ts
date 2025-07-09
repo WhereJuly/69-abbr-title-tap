@@ -3,21 +3,12 @@
 import { test, expect, TestInfo, PlaywrightTestArgs } from '@playwright/test';
 import { ATT_CLASS_ON } from '@src/ts/style.tokens.js';
 
-import { hasVisibleAfter, htmlContent } from '@tests/e2e/.ancillary/helpers/helpers.js';
+import { beforeTest, hasVisibleAfter } from '@tests/e2e/.ancillary/helpers/helpers.js';
 
 test.describe('AbbrTapHandler Test', () => {
 
     test.beforeEach(async ({ page }: PlaywrightTestArgs, testInfo: TestInfo) => {
-        // Set up basic page DOM
-        const html = htmlContent('page.html', testInfo);
-        await page.setContent(html, { waitUntil: 'load' });
-
-        // WARNING: Run `npm run build:test` after update and before using it here 
-        await page.addScriptTag({ path: '.delivery/.builds/test/initialization.js', type: 'module' });
-        await page.addStyleTag({ path: '.delivery/.builds/test/styles.css' });
-
-        // Forward all console messages from page to Node.js console
-        page.on('console', msg => { console.log(`PAGE LOG [${msg.type()}]: ${msg.text()}`); });
+        await beforeTest(page, testInfo, 'abbr.init.js');
     });
 
     test('Should successfully tap on first <abbr>', async ({ page }: PlaywrightTestArgs) => {
@@ -37,8 +28,6 @@ test.describe('AbbrTapHandler Test', () => {
 
     test('Should remove classes from the first tapped <abbr> when tap on second <abbr>', async ({ page }: PlaywrightTestArgs) => {
         expect(page).toBeTruthy();
-
-        await page.pause();
 
         const abbr1 = page.locator('abbr').first();
         await abbr1.waitFor();
@@ -65,6 +54,28 @@ test.describe('AbbrTapHandler Test', () => {
 
         expect(abbr1HasVisibleAfter).toEqual(false);
         expect(abbr2HasVisibleAfter).toEqual(true);
+    });
+
+    test('Should remove classes from all abbr tags when tap on body', async ({ page }: PlaywrightTestArgs) => {
+        expect(page).toBeTruthy();
+
+        // Arrange: tap on abbr
+        const abbr = page.locator('abbr').last();
+        await abbr.waitFor();
+
+        await abbr?.dispatchEvent('touchstart');
+        await abbr?.dispatchEvent('touchend');
+
+        // Act: tap on body to clear all abbr's classes
+        const body = page.locator('body');
+        await body.waitFor();
+
+        await body?.dispatchEvent('touchstart');
+        await body?.dispatchEvent('touchend');
+
+        // Assert: 
+        const actual = await page.locator(`abbr.${ATT_CLASS_ON}`).count();
+        expect(actual).toEqual(0);
     });
 
 });
