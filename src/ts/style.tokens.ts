@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * WARNING: These constants, along with TS, are used in the LESS CSS for auto generating constants
+ * WARNING: These TS constants, along with TS code, are used in the LESS CSS for auto generating LESS constants
  * via .delivery\scripts\generate-style-constants.ts.
  * 
  * @see {@link src\styles\styles.less}

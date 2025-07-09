@@ -4,24 +4,23 @@
 
 The default behavior after package code is initialized is as follows:
 
-- On mobiles, when a mobile user taps on `abbr` tags presented on the page the `title` attribute value appears near the `abbr` tag.
+- On mobiles, when a mobile user taps on `abbr` tags presented on the page, the `title` attribute value appears near the `abbr` tag.
 - The value disappears when a user taps beyond an `abbr` tag.
-- The look and feel of the `title` value copies that of the desktop-native `abbr` `title`.
+- The look and feel of the `title` value copies that of the desktop-native `abbr` `title` with the distinction that the value is left- or right-aligned based on if `abbr` is to the left or to the right of the viewport middle.
+- [TBD]: What to do with the `abbr` element with missing title tag.
 
-The `title` tag must
+### Algorithm
 
-#### Algorithms
+The task at hand requires to coordinate some fine logic for the <abbr title="CSS, JS, markup">different actors types</abbr> to work in sync. The task also implies a number of non-transparent edge cases to be tested against to achieve a clean desired result.
 
-> Despite the seemingly simple, the task at hand requires a lot of logic coming from the <abbr title="CSS, JS, markup">different actors types</abbr> to work in sync. The task also implies a number of non-transparent edge cases to be tested against to achieve a clean desired result.
+**Inputs**
 
-##### Inputs
+- We get a valid HTML document with standard `abbr` tag with a `title` attribute.
+- At synthetic tap event (`touchstart` followed by `touchend` event, discarded when `touchmove` happens) we get the tapped HTML element or `document` object.
 
-- At `touchstart` event we get the first touch 
+**Side Effects (Outputs)**
 
-##### Outputs
-
-##### Invariants
-
-- An `abbr` tag can be within any HTML element, the simples case it is within a `body` element;
-- We process `touchstart` only for `abbr` element;
-
+- The CSS code provides the static and dynamic styles. The static styles are applied with HTML `link` tag. The dynamic styles are applied via CSS variables used in the CSS rules.
+- The JS code:
+  - Clears the package CSS class and its `style` rules on all `abbr` elements
+  - Sets that CSS class and style rules for the `abbr` just tapped.
