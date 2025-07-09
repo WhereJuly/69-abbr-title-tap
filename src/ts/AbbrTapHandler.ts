@@ -34,7 +34,7 @@ export default class AbbrTapHandler extends ATapHandler {
 
     // NB: Must be called only after setting `el` on `this`.
     private isAbbrTag(): boolean {
-        return this.el?.tagName.toLowerCase() === 'abbr';
+        return this.el?.tagName?.toLowerCase() === 'abbr';
     }
 
     private setTitleCoords(abbrEl: HTMLElement): void {
