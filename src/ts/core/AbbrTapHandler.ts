@@ -5,6 +5,9 @@ import { ATT_CLASS_ON, ATT_VARIABLE_TITLE_LEFT, ATT_VARIABLE_TITLE_RIGHT, ATT_VA
 
 type TTitleCoords = { top: string; left: string; right: string; };
 
+/**
+ * The `abbr` tap handler.
+ */
 export default class AbbrTapHandler extends ATapHandler {
 
     constructor() {
