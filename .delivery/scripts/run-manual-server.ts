@@ -8,6 +8,7 @@ const server = browserSync.create();
 console.log(cwd());
 
 server.init({
+    open: false,
     server: {
         baseDir: './tests/manual',  // Your main served directory
         routes: {

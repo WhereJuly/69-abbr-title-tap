@@ -1,9 +1,9 @@
 'use strict';
 
 import { ATapHandler } from '@src/ts/ATapHandler.js';
-import { ATT_CLASS_ON, ATT_VARIABLE_TITLE_LEFT, ATT_VARIABLE_TITLE_TOP } from '@src/ts/style.tokens.js';
+import { ATT_CLASS_ON, ATT_VARIABLE_TITLE_LEFT, ATT_VARIABLE_TITLE_RIGHT, ATT_VARIABLE_TITLE_TOP } from '@src/ts/style.tokens.js';
 
-type TTitleCoords = { top: number; left: number; };
+type TTitleCoords = { top: string; left: string; right: string; };
 
 export default class AbbrTapHandler extends ATapHandler {
 
@@ -29,6 +29,7 @@ export default class AbbrTapHandler extends ATapHandler {
 
             abbrEl.style.removeProperty(ATT_VARIABLE_TITLE_TOP);
             abbrEl.style.removeProperty(ATT_VARIABLE_TITLE_LEFT);
+            abbrEl.style.removeProperty(ATT_VARIABLE_TITLE_RIGHT);
         });
     }
 
@@ -41,16 +42,42 @@ export default class AbbrTapHandler extends ATapHandler {
         // NB: Calculate the top-left coordinates of the abbr:after element.
         const coords = this.titleCoords(abbrEl);
 
-        abbrEl.style.setProperty(ATT_VARIABLE_TITLE_TOP, `${coords.top}px`);
-        abbrEl.style.setProperty(ATT_VARIABLE_TITLE_LEFT, `${coords.left}px`);
+        abbrEl.style.setProperty(ATT_VARIABLE_TITLE_TOP, coords.top);
+        abbrEl.style.setProperty(ATT_VARIABLE_TITLE_LEFT, coords.left);
+        abbrEl.style.setProperty(ATT_VARIABLE_TITLE_RIGHT, coords.right);
     }
 
+    /**
+     * Calculate top, left and right CSS values for the `abbr:after` pseudo-element. 
+     * 
+     * The alignment of the abbr:after pseudo-element is based on the position of the tapped
+     * `abbr.left` coordinate. If it is < 50vw, we align abbr:after left, similar to how `text-align: left;`
+     * works. Otherwise we align it right. 
+     */
     private titleCoords(abbrEl: HTMLElement): TTitleCoords {
         const round = (value: number) => Math.round(value);
         const rect = abbrEl.getBoundingClientRect();
 
-        const offset = { top: rect.height / 3, left: 10 };
-        return { top: round(rect.bottom + offset.top), left: round(rect.x + offset.left) };
+        const offset = { top: rect.height / 3, left: 10, right: 10 };
+
+        // Calculate threshold (50vw) in pixels
+        const vwThreshold = round(0.5 * window.innerWidth);
+
+        const shouldAlignLeft = rect.x < vwThreshold;
+        const leftAndRight = {
+            left: shouldAlignLeft ? `${round(rect.left + offset.left)}px` : 'auto',
+            right: shouldAlignLeft ? 'auto' : `${round( window.innerWidth - rect.right + offset.right)}px`
+        };
+
+        console.log(vwThreshold);
+        console.dir(rect);
+
+        return {
+            top: `${round(rect.bottom + offset.top)}px`,
+            left: leftAndRight.left,
+            right: leftAndRight.right
+        };
+
     }
 
 }
