@@ -69,9 +69,6 @@ export default class AbbrTapHandler extends ATapHandler {
             right: shouldAlignLeft ? 'auto' : `${round( window.innerWidth - rect.right + offset.right)}px`
         };
 
-        console.log(vwThreshold);
-        console.dir(rect);
-
         return {
             top: `${round(rect.bottom + offset.top)}px`,
             left: leftAndRight.left,
