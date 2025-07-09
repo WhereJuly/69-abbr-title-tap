@@ -28,8 +28,8 @@ export async function beforeTest(page: Page, testInfo: TestInfo, initScriptName:
     await page.setContent(html, { waitUntil: 'load' });
 
     // WARNING: Run `npm run build:test` after update and before using it here 
-    await page.addScriptTag({ path: `.delivery/.builds/test/${initScriptName}`, type: 'module' });
-    await page.addStyleTag({ path: '.delivery/.builds/test/styles.css' });
+    await page.addScriptTag({ path: `tests/.builds/${initScriptName}`, type: 'module' });
+    await page.addStyleTag({ path: 'tests/.builds/styles.css' });
 
     // Forward all console messages from page to Node.js console
     page.on('console', msg => { console.log(`PAGE LOG [${msg.type()}]: ${msg.text()}`); });

@@ -1,7 +1,9 @@
 # build output
 dist/
-.builds
+tests/.builds/*
+!tests/.builds/.gitkeep
 .delivery/.temp
+.delivery/.builds
 .coverage
 .outputs
 .reports
