@@ -1,7 +1,7 @@
 'use strict';
 
-import { ATapHandler } from '@src/ts/ATapHandler.js';
-import { ATT_CLASS_ON, ATT_VARIABLE_TITLE_LEFT, ATT_VARIABLE_TITLE_RIGHT, ATT_VARIABLE_TITLE_TOP } from '@src/ts/style.tokens.js';
+import { ATapHandler } from '@src/ts/core/ATapHandler.js';
+import { ATT_CLASS_ON, ATT_VARIABLE_TITLE_LEFT, ATT_VARIABLE_TITLE_RIGHT, ATT_VARIABLE_TITLE_TOP } from '@src/ts/core/style.tokens.js';
 
 type TTitleCoords = { top: string; left: string; right: string; };
 

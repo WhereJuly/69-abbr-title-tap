@@ -1,7 +1,7 @@
 'use strict';
 
 import DummyTapHandler from '@tests/e2e/.ancillary/fixtures/DummyTapHandler.js';
-import TapDetector from '@src/ts/TapDetector.js';
+import TapDetector from '@src/ts/core/TapDetector.js';
 
 const handler = new DummyTapHandler();
 new TapDetector(document, 'abbr', handler); //NOSONAR

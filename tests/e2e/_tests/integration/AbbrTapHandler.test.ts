@@ -1,7 +1,7 @@
 'use strict';
 
 import { test, expect, TestInfo, PlaywrightTestArgs } from '@playwright/test';
-import { ATT_CLASS_ON } from '@src/ts/style.tokens.js';
+import { ATT_CLASS_ON } from '@src/ts/core/style.tokens.js';
 
 import { beforeTest, hasVisibleAfter } from '@tests/e2e/.ancillary/helpers/helpers.js';
 

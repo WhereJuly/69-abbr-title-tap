@@ -1,6 +1,6 @@
 'use strict';
 
-import { ATapHandler } from '@src/ts/ATapHandler.js';
+import { ATapHandler } from '@src/ts/core/ATapHandler.js';
 
 /**
  * The class to test the TapDetector class with expected side effects.
