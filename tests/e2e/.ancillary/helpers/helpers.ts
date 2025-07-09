@@ -16,9 +16,21 @@ export async function hasVisibleAfter(locator: Locator): Promise<boolean> {
     });
 };
 
-
 export async function retrieveTagName(page: Page): Promise<string | null> {
     return await page.evaluate(() => {
         return window.__ABBR_TAP_HANDLER__.tagName;
     });
 };
+
+export async function beforeTest(page: Page, testInfo: TestInfo, initScriptName: string): Promise<void> {
+    // Set up basic page DOM
+    const html = htmlContent('page.html', testInfo);
+    await page.setContent(html, { waitUntil: 'load' });
+
+    // WARNING: Run `npm run build:test` after update and before using it here 
+    await page.addScriptTag({ path: `.delivery/.builds/test/${initScriptName}`, type: 'module' });
+    await page.addStyleTag({ path: '.delivery/.builds/test/styles.css' });
+
+    // Forward all console messages from page to Node.js console
+    page.on('console', msg => { console.log(`PAGE LOG [${msg.type()}]: ${msg.text()}`); });
+}

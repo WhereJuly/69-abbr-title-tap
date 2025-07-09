@@ -6,7 +6,7 @@
     "main": "index.js",
     "scripts": {
         "build:test": "npm run build:test:ts && npm run build:test:less",
-        "build:test:ts": "npx esbuild tests/e2e/.ancillary/fixtures/initialization.ts --bundle --outfile=.delivery/.builds/test/initialization.js --format=esm --target=es2017",
+        "build:test:ts": "npx esbuild tests/e2e/.ancillary/fixtures/*.init.ts --bundle --outdir=.delivery/.builds/test --format=esm --target=es2017",
         "build:test:less": "tsx .delivery/scripts/generate-style-constants.ts && npx lessc src/styles/styles.less .delivery/.builds/test/styles.css",
         "test:e2e": "npm run check-types && npm run build:test && npm run test",
         "test": "npx playwright test --config tests/e2e/.ancillary/config/playwright.config.ts --project chromium",

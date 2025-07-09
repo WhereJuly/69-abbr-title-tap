@@ -4,10 +4,9 @@ import DummyTapHandler from '@tests/e2e/.ancillary/fixtures/DummyTapHandler.js';
 import TapDetector from '@src/ts/TapDetector.js';
 
 const handler = new DummyTapHandler();
-const detector = new TapDetector(document, 'abbr', handler);
+new TapDetector(document, 'abbr', handler); //NOSONAR
 
-console.log('initialization...');
+console.log('dummy tap handler initialization...');
 
-// Optionally expose for testing
+// Expose to check in tests
 (window as any).__ABBR_TAP_HANDLER__ = handler;
-(window as any).__TAP_DETECTOR__ = detector;
