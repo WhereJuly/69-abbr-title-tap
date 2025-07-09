@@ -1,9 +1,25 @@
 {
-    "name": "69-abbr-title-tap",
+    "name": "abbr-title-tap",
     "version": "1.0.0",
     "description": "A drop-in replacement for <abbr title='...'> tag tap behavior on mobile devices, simulating native desktop hover tooltip effect.",
     "type": "module",
-    "main": "index.js",
+    "main": "./code/index.js",
+    "module": "./code/index.js",
+    "types": "./types/index.d.ts",
+    "unpkg": "./browser/abbr-title-tap.min.js",
+    "exports": {
+        ".": {
+            "import": "./code/index.js",
+            "types": "./types/index.d.ts",
+            "browser": "./browser/abbr-title-tap.min.js"
+        },
+        "./styles.css": "./browser/styles.css"
+    },
+    "files": [
+        "browser/",
+        "code/",
+        "types/"
+    ],
     "scripts": {
         "build:test:e2e": "npm run build:test:ts && npm run build:test:less",
         "build:test:ts": "npx esbuild tests/e2e/.ancillary/fixtures/*.init.ts --bundle --outdir=tests/.builds --format=esm --target=es2017",
@@ -11,7 +27,11 @@
         "run:test:manual": "npm run build:test:e2e && tsx .delivery/scripts/run-manual-server.ts",
         "test:e2e": "npm run check-types && npm run build:test:e2e && npm run test",
         "test": "npx playwright test --config tests/e2e/.ancillary/config/playwright.config.ts --project chromium",
-        "check-types": "npx tsc --noEmit --project ."
+        "check-types": "npx tsc --noEmit --project .",
+        "lint": "npx eslint ./src",
+        "package:build": "tsx .delivery/scripts/build/build.ts",
+        "package:build:less": "tsx .delivery/scripts/generate-style-constants.ts && npx lessc src/styles/styles.less ./.delivery/.builds/dist/browser/styles.css",
+        "package:bundle:copy": "cpy ./package.json ./LICENSE ./readme.md ./.delivery/.builds/dist"
     },
     "author": {
         "name": "Valentine Shi",

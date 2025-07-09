@@ -25,6 +25,6 @@
         "skipLibCheck": true
     },
 
-    "include": ["./src", "eslint.config.mjs", ".delivery/scripts", "./tests/e2e/**/*.ts", "./tests/e2e/.ancillary/**/*.*", "tests/**/*.d.ts"],
-    "exclude": ["node_modules", "./.usage/tests/**/*.ts"]
+    "include": ["./src", "eslint.config.mjs", ".delivery/scripts", ".delivery/config", "./tests/e2e/**/*.ts", "./tests/e2e/.ancillary/**/*.*", "tests/**/*.d.ts"],
+    "exclude": ["node_modules"]
 }
