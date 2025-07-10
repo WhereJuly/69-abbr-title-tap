@@ -85,11 +85,11 @@ export default class AbbrTapHandler extends ATapHandler {
      * @returns {TTitleCoords} Object containing top, left and right CSS values
      */
     private titleCoords(abbrEl: HTMLElement): TTitleCoords {
-        const round = (value: number) => Math.round(value);
+        const round = (value: number) => Math.round(value); // Just a local helper function.
         const rect = abbrEl.getBoundingClientRect();
 
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        const absoluteTop = rect.top + scrollTop;
+        const isMultiline = this.isMultilineContent(abbrEl, window.innerWidth * 0.9);
+        console.log('is multiline: ', isMultiline);
 
         const offset = { top: rect.height / 3, left: 10, right: 10 };
 
@@ -103,16 +103,37 @@ export default class AbbrTapHandler extends ATapHandler {
          * rule (`right` or `left`) is set to `auto`
          */
         const leftAndRight = {
-            left: shouldAlignLeft ? `${round(rect.left + offset.left)}px` : 'auto',
-            right: shouldAlignLeft ? 'auto' : `${round(window.innerWidth - rect.right + offset.right)}px`
+            left: shouldAlignLeft ? `${offset.left}px` : 'auto',
+            right: shouldAlignLeft ? 'auto' : `${offset.right}px`
         };
 
         return {
-            top: `${round(absoluteTop + rect.height + offset.top)}px`,
+            top: `auto`,
             left: leftAndRight.left,
             right: leftAndRight.right
         };
 
+    }
+
+    private isMultilineContent(abbrEl: HTMLElement, maxWidth: number): boolean {
+        const content = getComputedStyle(abbrEl, '::after').content;
+        if (!content || content === 'none' || content === '""') return false;
+
+        // Remove surrounding quotes from content string
+        const text = content.replace(/^"(.*)"$/, '$1');
+
+        // Create hidden span to measure text
+        const span = document.createElement('span');
+        span.classList.add(ATT_CLASS_ON);
+        span.textContent = text;
+
+        document.body.appendChild(span);
+
+        const textWidth = span.offsetWidth;
+
+        document.body.removeChild(span);
+
+        return textWidth > maxWidth; // if wider, will wrap → multiline
     }
 
 }

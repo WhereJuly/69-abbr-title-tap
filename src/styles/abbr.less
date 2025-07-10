@@ -4,10 +4,21 @@
             display: block;
         }
     }
+    span& {
+        position: absolute;
+        z-index: -1;
+        white-space: normal;
+        top: 0;
+        left: 0;
+        visibility: hidden;
+        padding: 4px 8px;
+        font-size: 0.7em;
+    }
 }
 
 abbr {
-    @{abbr-title-top-variable}: auto;
+    position: relative;
+
     @{abbr-title-left-variable}: auto;
     @{abbr-title-right-variable}: auto;
 
@@ -15,9 +26,10 @@ abbr {
         display: none;
         content: attr(title);
         position: absolute;
+        z-index: 1;
 
         // These are set via JS
-        top: var(@abbr-title-top-variable);
+        top: auto;
         left: var(@abbr-title-left-variable);
         right: var(@abbr-title-right-variable);
 
