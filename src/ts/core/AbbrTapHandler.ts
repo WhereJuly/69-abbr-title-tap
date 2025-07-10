@@ -75,7 +75,8 @@ export default class AbbrTapHandler extends ATapHandler {
 
     /**
      * Calculates the optimal tooltip CSS position (`left`, `right`) based on viewport-
-     * relative coordinates and its actual with using hidden snap element as a measure.
+     * relative coordinates and its actual with using hidden `span` element as a measure
+     * {@link assessActualWidth}.
      * 
      * Align title content left (as in `text-align: left;` CSS rule) 
      * if `abbr` element is in left half of viewport, otherwise align right.
@@ -107,7 +108,12 @@ export default class AbbrTapHandler extends ATapHandler {
             right: shouldAlignLeft ? 'auto' : `${offset.right}px`,
         };
 
-        // Now we decide on which 
+        /**
+         * Now we decide on the width of the `:after` element. This is required because
+         * `abbr` element width is mostly shorter than the title content width. So we need to
+         * make the `:after` width to automatically match the actual width of the title content 
+         * with or without word-wrapping.
+         */
         const maxWidth = shouldAlignLeft ? vwMax - rect.left - offset.left : rect.right - offset.right - vwLeft;
         const actualWidth = this.assessActualWidth(abbrEl);
         const width = actualWidth < maxWidth ? actualWidth : this.round(maxWidth);
@@ -120,6 +126,17 @@ export default class AbbrTapHandler extends ATapHandler {
 
     }
 
+    /**
+     * Measures the actual rendered width of the tooltip content (abbr::after pseudo-element).
+     * For this it creates a temporary hidden span with the same content.
+     * 
+     * The returned NaN does not make any effect in the caller as the missing title attribute
+     * is treated with CSS {@link src\styles\abbr.less}.
+     * 
+     * @param {HTMLElement} abbrEl The abbr element whose tooltip width to measure
+     * 
+     * @returns {number} The calculated width in pixels (with 4px safety margin), or NaN if no content exists
+     */
     private assessActualWidth(abbrEl: HTMLElement): number {
         const content = getComputedStyle(abbrEl, '::after').content;
 
@@ -143,6 +160,7 @@ export default class AbbrTapHandler extends ATapHandler {
         return actualWidth;
     }
 
+    // Just a small local helper. 
     private round(value: number) { return Math.round(value); };
 
 }

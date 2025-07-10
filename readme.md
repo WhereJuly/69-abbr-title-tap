@@ -22,12 +22,6 @@ Add this in your `index.html` `head` tag. This makes it work as soon as your pag
 <link rel="stylesheet" href="https://unpkg.com/abbr-title-tap/styles.min.css" />
 ```
 
-If you install the package locally you can import script and styles in your code from the package.
-
-```bash
-npm install abbr-title-tap
-```
-
 ## Programmatic Usage
 
 For programmatic usage install it via **npm**:
@@ -36,27 +30,36 @@ For programmatic usage install it via **npm**:
 npm install abbr-title-tap
 ```
 
-Must import styles like this if not imported in HTML.
+If not run vial HTML, then import the package code and styles like this.
 
 ```typescript
 import 'abbr-title-tap/styles.css';
+import 'abbr-title-tap';
 ```
 
-This will do the same as the `script` tag above in HTML. Note, either way runs a singleton so that just a single `TapDetector` class instance is run.
+Alternatively, the following will do the same as the `script` tag above in HTML. CSS should be imported as well. Note, either way, it runs a singleton so that just a single `TapDetector` class instance is run.
 
 ```typescript
+import 'abbr-title-tap/styles.css';
+
 import { Init } from 'abbr-title-tap';
 
 new Init();
 ```
 
-This is the manual initialization. You could provide your own tap handler class. Refer to the JSDoc hover-able blocks for more info on the classes.
+### Advanced
+
+This is the manual initialization. This is not anymore a singleton, so ensure you do not create multiple redundant `TapDetector` instances.
 
 ```typescript
 import { AbbrTapHandler, TapDetector } from 'abbr-title-tap';
 
 new TapDetector(document, 'abbr', new AbbrTapHandler());
 ```
+
+Formally you could listen to a tap event on any selector you want and provide your own custom tap handler. See the `TapDetector`, `ATapHandler` and `AbbrTapHandler` classes JSDoc hoverable blocks for more info and dig in the source.
+
+You could also instantiate multiple `TapDetector` instances for handling different HTML selectors with a different handlers (not tested actually).
 
 ## Development
 

@@ -1,5 +1,7 @@
 .@{class-title-on} {
     abbr& {
+        // INFO: Only abbr with title attribute will generate `:after` pseudo-element
+        // This prevents the package from generating the empty box.
         &[title] {
             &:after {
                 display: block;
@@ -27,7 +29,6 @@ abbr {
     @{abbr-title-left-variable}: auto;
     @{abbr-title-right-variable}: auto;
 
-    // INFO: Only abbr with title attribute will generate `:after` pseudo-element;
     &:after {
         box-sizing: border-box;
 
