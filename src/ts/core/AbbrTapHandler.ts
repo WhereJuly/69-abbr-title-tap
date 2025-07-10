@@ -110,8 +110,8 @@ export default class AbbrTapHandler extends ATapHandler {
         };
 
         const maxWidth = shouldAlignLeft ? vwMax - rect.left - offset.left : rect.right - offset.right - vwLeft;
-        const actualWidth = this.assessActualWidth(abbrEl, maxWidth);
-        const width = actualWidth.actualWidth < maxWidth ? actualWidth.actualWidth : this.round(maxWidth);
+        const actualWidth = this.assessActualWidth(abbrEl);
+        const width = actualWidth < maxWidth ? actualWidth : this.round(maxWidth);
 
         console.log('actual width: ', actualWidth);
         console.log('vwMax: ', vwMax);
@@ -124,11 +124,10 @@ export default class AbbrTapHandler extends ATapHandler {
 
     }
 
-    private assessActualWidth(abbrEl: HTMLElement, maxWidth: number): { actualWidth: number, isMultiline: boolean; } {
-        const result = { actualWidth: NaN, isMultiline: false };
+    private assessActualWidth(abbrEl: HTMLElement): number {
         const content = getComputedStyle(abbrEl, '::after').content;
 
-        if (!content || content === 'none' || content === '""') return result;
+        if (!content || content === 'none' || content === '""') return NaN;
 
         // Remove surrounding quotes from content string
         const text = content.replace(/^"(.*)"$/, '$1');
@@ -140,12 +139,12 @@ export default class AbbrTapHandler extends ATapHandler {
 
         document.body.appendChild(span);
 
-        result.actualWidth = this.round(span.offsetWidth + 4);
-        result.isMultiline = result.actualWidth > maxWidth;
+        // NB: Add 4px safety margin for calculation error
+        const actualWidth = this.round(span.offsetWidth + 4);
 
         document.body.removeChild(span);
 
-        return result; // if wider, will wrap → multiline
+        return actualWidth;
     }
 
     private round(value: number) { return Math.round(value); };
