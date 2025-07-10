@@ -1,7 +1,9 @@
 .@{class-title-on} {
     abbr& {
-        &:after {
-            display: block;
+        &[title] {
+            &:after {
+                display: block;
+            }
         }
     }
 
@@ -25,28 +27,26 @@ abbr {
     @{abbr-title-left-variable}: auto;
     @{abbr-title-right-variable}: auto;
 
-    &[title] {
-        // INFO: Only abbr with title attribute will generate `:after` pseudo-element;
-        &:after {
-            box-sizing: border-box;
+    // INFO: Only abbr with title attribute will generate `:after` pseudo-element;
+    &:after {
+        box-sizing: border-box;
 
-            display: none;
-            content: attr(title);
-            position: absolute;
-            z-index: 1;
+        display: none;
+        content: attr(title);
+        position: absolute;
+        z-index: 1;
 
-            // These are set via JS
-            top: auto;
-            left: var(@abbr-title-left-variable);
-            right: var(@abbr-title-right-variable);
-            width: var(@abbr-title-width-variable);
+        // These are set via JS
+        top: auto;
+        left: var(@abbr-title-left-variable);
+        right: var(@abbr-title-right-variable);
+        width: var(@abbr-title-width-variable);
 
-            max-width: 90vw;
-            padding: 4px 8px;
-            font-size: 0.7em;
-            color: @color-cod-gray;
-            background-color: @color-white;
-            border: 1px solid @color-gray;
-        }
+        max-width: 90vw;
+        padding: 4px 8px;
+        font-size: 0.7em;
+        color: @color-cod-gray;
+        background-color: @color-white;
+        border: 1px solid @color-gray;
     }
 }
