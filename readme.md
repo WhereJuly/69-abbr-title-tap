@@ -4,11 +4,10 @@ This tiny package drop-in brings native-like `<abbr title="...">` hover behavior
 
 **Package Status**
 
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=WhereJuly_68-null-object&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=WhereJuly_68-null-object)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=WhereJuly_68-null-object&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=WhereJuly_68-null-object)
-
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=WhereJuly_69-abbr-title-tap&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=WhereJuly_69-abbr-title-tap)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=WhereJuly_69-abbr-title-tap&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=WhereJuly_69-abbr-title-tap)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/abbr-title-tap)
-![npm bundle size](https://img.shields.io/bundlephobia/minzip/abbr-title-tap)
+![npm minzip size](https://img.shields.io/bundlephobia/minzip/abbr-title-tap)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?color=green)](https://opensource.org/licenses/MIT)
 
 ## Installation
