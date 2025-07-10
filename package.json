@@ -1,6 +1,6 @@
 {
     "name": "abbr-title-tap",
-    "version": "0.9.0",
+    "version": "0.12.0",
     "description": "A drop-in replacement for <abbr title='...'> tag tap behavior on mobile devices, simulating native desktop hover tooltip effect.",
     "type": "module",
     "main": "./code/index.js",
@@ -13,7 +13,7 @@
             "types": "./types/index.d.ts",
             "browser": "./browser/abbr-title-tap.min.js"
         },
-        "./styles.css": "./browser/styles.css"
+        "./styles.min.css": "./browser/styles.min.css"
     },
     "files": [
         "browser/",
@@ -40,8 +40,8 @@
         "url": "https://valentineshi.dev"
     },
     "license": "MIT",
-    "homepage": "https://github.com/WhereJuly/68-null-object#readme",
-    "issues": "https://github.com/WhereJuly/68-null-object/issues",
+    "homepage": "https://github.com/WhereJuly/69-abbr-title-tap#readme",
+    "issues": "https://github.com/WhereJuly/69-abbr-title-tap/issues",
     "keywords": [
         "abbr",
         "abbreviation",

@@ -88,6 +88,9 @@ export default class AbbrTapHandler extends ATapHandler {
         const round = (value: number) => Math.round(value);
         const rect = abbrEl.getBoundingClientRect();
 
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const absoluteTop = rect.top + scrollTop;
+
         const offset = { top: rect.height / 3, left: 10, right: 10 };
 
         // Calculate threshold (50vw, middle of the viewport) in pixels
@@ -105,7 +108,7 @@ export default class AbbrTapHandler extends ATapHandler {
         };
 
         return {
-            top: `${round(rect.bottom + offset.top)}px`,
+            top: `${round(absoluteTop + rect.height + offset.top)}px`,
             left: leftAndRight.left,
             right: leftAndRight.right
         };
