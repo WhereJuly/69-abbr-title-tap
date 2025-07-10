@@ -8,10 +8,9 @@ const commands: string[] = [
     'rimraf ./.delivery/.builds/dist',
     'tsx .delivery/scripts/build/for-browser.ts',
     'tsc -p ./.delivery/configuration/tsconfig.json',
-    'npm run package:build:less',
     'npm run package:bundle:copy',
     'cd .usage && npm install',
-    // 'npm run package:pack',
+    'npm run package:pack',
 ];
 
 try {

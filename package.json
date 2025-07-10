@@ -30,8 +30,9 @@
         "check-types": "npx tsc --noEmit --project .",
         "lint": "npx eslint ./src",
         "package:build": "tsx .delivery/scripts/build/build.ts",
-        "package:build:less": "tsx .delivery/scripts/generate-style-constants.ts && npx lessc src/styles/styles.less ./.delivery/.builds/dist/browser/styles.css",
-        "package:bundle:copy": "cpy ./package.json ./LICENSE ./readme.md ./.delivery/.builds/dist"
+        "package:bundle:copy": "cpy ./package.json ./LICENSE ./readme.md ./.delivery/.builds/dist",
+        "package:pack": "cd ./.delivery/.builds/dist && npm pack",
+        "package:publish": "npm publish ./.delivery/.builds/dist"
     },
     "author": {
         "name": "Valentine Shi",
@@ -64,6 +65,7 @@
         "@typescript-eslint/parser": "^8.35.1",
         "browser-sync": "^3.0.4",
         "cpy-cli": "^5.0.0",
+        "esbuild-plugin-less": "^1.3.24",
         "eslint": "^9.30.1",
         "less": "^4.3.0",
         "markdown-link-check": "^3.13.7",
