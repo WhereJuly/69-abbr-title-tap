@@ -87,7 +87,6 @@ export default class AbbrTapHandler extends ATapHandler {
      * @returns {TTitleCoords} Object containing top, left and right CSS values
      */
     private titleCoords(abbrEl: HTMLElement): TTitleCoords {
-        const round = (value: number) => Math.round(value); // Just a local helper function.
         const rect = abbrEl.getBoundingClientRect();
         const vwMax = window.innerWidth * 0.9;
         const vwLeft = window.innerWidth * 0.1;
@@ -98,7 +97,7 @@ export default class AbbrTapHandler extends ATapHandler {
          * Calculate threshold (50vw, middle of the viewport) in pixels
          * 
         */
-        const vwThreshold = round(0.5 * window.innerWidth);
+        const vwThreshold = this.round(0.5 * window.innerWidth);
         const shouldAlignLeft = rect.x < vwThreshold;
 
         /**
@@ -112,7 +111,7 @@ export default class AbbrTapHandler extends ATapHandler {
 
         const maxWidth = shouldAlignLeft ? vwMax - rect.left - offset.left : rect.right - offset.right - vwLeft;
         const actualWidth = this.assessActualWidth(abbrEl, maxWidth);
-        const width = actualWidth.actualWidth < maxWidth ? actualWidth.actualWidth : maxWidth;
+        const width = actualWidth.actualWidth < maxWidth ? actualWidth.actualWidth : this.round(maxWidth);
 
         console.log('actual width: ', actualWidth);
         console.log('vwMax: ', vwMax);
@@ -141,12 +140,14 @@ export default class AbbrTapHandler extends ATapHandler {
 
         document.body.appendChild(span);
 
-        result.actualWidth = span.offsetWidth;
+        result.actualWidth = this.round(span.offsetWidth + 4);
         result.isMultiline = result.actualWidth > maxWidth;
 
         document.body.removeChild(span);
 
         return result; // if wider, will wrap → multiline
     }
+
+    private round(value: number) { return Math.round(value); };
 
 }
