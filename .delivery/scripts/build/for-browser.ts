@@ -14,6 +14,7 @@ const config: BuildOptions = {
     target: ['es2017'],
     platform: 'browser',
     format: 'iife',
+    drop: ['console'],
     outfile: `${outDir}/abbr-title-tap.min.js`
 };
 
