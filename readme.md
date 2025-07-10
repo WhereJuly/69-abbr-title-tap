@@ -17,8 +17,15 @@ This tiny package drop-in brings native-like `<abbr title="...">` hover behavior
 Add this in your `index.html` `head` tag. This makes it work as soon as your page loads.
 
 ```html
+<!-- From unpkg -->
 <script src="https://unpkg.com/abbr-title-tap"></script>
-<link rel="stylesheet" href="https://unpkg.com/abbr-title-tap/styles.css" />
+<link rel="stylesheet" href="https://unpkg.com/abbr-title-tap/styles.min.css" />
+```
+
+If you install the package locally you can import script and styles in your code from the package.
+
+```bash
+npm install abbr-title-tap
 ```
 
 ## Programmatic Usage
