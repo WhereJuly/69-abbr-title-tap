@@ -1,31 +1,53 @@
 .@{class-title-on} {
     abbr& {
-        &:after {
-            display: block;
+        // INFO: Only abbr with title attribute will generate `:after` pseudo-element
+        // This prevents the package from generating the empty box.
+        &[title] {
+            &:after {
+                display: block;
+            }
         }
+    }
+
+    span& {
+        box-sizing: border-box;
+        position: absolute;
+        z-index: -1;
+        white-space: normal;
+        top: 0;
+        left: 0;
+        visibility: hidden;
+        padding: 4px 8px;
+        font-size: 0.7em;
+        border: 1px solid transparent;
     }
 }
 
 abbr {
-    @{abbr-title-top-variable}: auto;
+    position: relative;
+
     @{abbr-title-left-variable}: auto;
     @{abbr-title-right-variable}: auto;
 
     &:after {
+        box-sizing: border-box;
+
         display: none;
         content: attr(title);
         position: absolute;
+        z-index: 1;
 
         // These are set via JS
-        top: var(@abbr-title-top-variable);
+        top: auto;
         left: var(@abbr-title-left-variable);
         right: var(@abbr-title-right-variable);
+        width: var(@abbr-title-width-variable);
 
         max-width: 90vw;
+        padding: 4px 8px;
+        font-size: 0.7em;
         color: @color-cod-gray;
         background-color: @color-white;
         border: 1px solid @color-gray;
-        padding: 4px 8px;
-        font-size: 0.7em;
     }
 }
