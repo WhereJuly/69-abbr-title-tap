@@ -1,9 +1,9 @@
 'use strict';
 
 import { ATapHandler } from '@src/ts/core/ATapHandler.js';
-import { ATT_CLASS_ON, ATT_VARIABLE_TITLE_LEFT, ATT_VARIABLE_TITLE_RIGHT, ATT_VARIABLE_TITLE_TOP } from '@src/ts/core/style.tokens.js';
+import { ATT_CLASS_ON, ATT_VARIABLE_TITLE_LEFT, ATT_VARIABLE_TITLE_RIGHT } from '@src/ts/core/style.tokens.js';
 
-type TTitleCoords = { top: string; left: string; right: string; };
+type TTitleCoords = { left: string; right: string; };
 
 /**
  * Handles tap events on `<abbr>` elements to display their title attributes as tooltips.
@@ -42,7 +42,6 @@ export default class AbbrTapHandler extends ATapHandler {
         abbrEls.forEach((abbrEl: HTMLElement) => {
             abbrEl.classList.remove(ATT_CLASS_ON);
 
-            abbrEl.style.removeProperty(ATT_VARIABLE_TITLE_TOP);
             abbrEl.style.removeProperty(ATT_VARIABLE_TITLE_LEFT);
             abbrEl.style.removeProperty(ATT_VARIABLE_TITLE_RIGHT);
         });
@@ -68,7 +67,6 @@ export default class AbbrTapHandler extends ATapHandler {
         // NB: Calculate the top-left coordinates of the abbr:after element.
         const coords = this.titleCoords(abbrEl);
 
-        abbrEl.style.setProperty(ATT_VARIABLE_TITLE_TOP, coords.top);
         abbrEl.style.setProperty(ATT_VARIABLE_TITLE_LEFT, coords.left);
         abbrEl.style.setProperty(ATT_VARIABLE_TITLE_RIGHT, coords.right);
     }
@@ -108,7 +106,6 @@ export default class AbbrTapHandler extends ATapHandler {
         };
 
         return {
-            top: `auto`,
             left: leftAndRight.left,
             right: leftAndRight.right
         };
