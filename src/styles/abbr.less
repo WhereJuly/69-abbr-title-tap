@@ -13,6 +13,7 @@
         visibility: hidden;
         padding: 4px 8px;
         font-size: 0.7em;
+        border: 1px solid transparent;
     }
 }
 
@@ -32,12 +33,13 @@ abbr {
         top: auto;
         left: var(@abbr-title-left-variable);
         right: var(@abbr-title-right-variable);
+        width: var(--title-width);
 
         max-width: 90vw;
+        padding: 4px 8px;
+        font-size: 0.7em;
         color: @color-cod-gray;
         background-color: @color-white;
         border: 1px solid @color-gray;
-        padding: 4px 8px;
-        font-size: 0.7em;
     }
 }

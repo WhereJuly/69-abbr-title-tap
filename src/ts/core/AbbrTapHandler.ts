@@ -3,7 +3,9 @@
 import { ATapHandler } from '@src/ts/core/ATapHandler.js';
 import { ATT_CLASS_ON, ATT_VARIABLE_TITLE_LEFT, ATT_VARIABLE_TITLE_RIGHT } from '@src/ts/core/style.tokens.js';
 
-type TTitleCoords = { left: string; right: string; };
+const ATT_VARIABLE_WIDTH = '--title-width';
+
+type TTitleCoords = { left: string; right: string; width: string; };
 
 /**
  * Handles tap events on `<abbr>` elements to display their title attributes as tooltips.
@@ -44,6 +46,7 @@ export default class AbbrTapHandler extends ATapHandler {
 
             abbrEl.style.removeProperty(ATT_VARIABLE_TITLE_LEFT);
             abbrEl.style.removeProperty(ATT_VARIABLE_TITLE_RIGHT);
+            abbrEl.style.removeProperty(ATT_VARIABLE_WIDTH);
         });
     }
 
@@ -69,14 +72,15 @@ export default class AbbrTapHandler extends ATapHandler {
 
         abbrEl.style.setProperty(ATT_VARIABLE_TITLE_LEFT, coords.left);
         abbrEl.style.setProperty(ATT_VARIABLE_TITLE_RIGHT, coords.right);
+        abbrEl.style.setProperty(ATT_VARIABLE_WIDTH, coords.width);
     }
 
     /**
-     * Calculates the optimal tooltip CSS position (`top`, `left`, `right`) based on viewport-
+     * Calculates the optimal tooltip CSS position (`left`, `right`) based on viewport-
      * relative coordinates. 
      * 
-     * Aligns left (as in `text-align: left;` CSS rule) if element is in left half of viewport,
-     * otherwise aligns right.
+     * Align title content left (as in `text-align: left;` CSS rule) 
+     * if `abbr` element is in left half of viewport, otherwise align right.
      * 
      * @param {HTMLElement} abbrEl The abbr element to calculate positions for.
      * 
@@ -85,36 +89,47 @@ export default class AbbrTapHandler extends ATapHandler {
     private titleCoords(abbrEl: HTMLElement): TTitleCoords {
         const round = (value: number) => Math.round(value); // Just a local helper function.
         const rect = abbrEl.getBoundingClientRect();
-
-        const isMultiline = this.isMultilineContent(abbrEl, window.innerWidth * 0.9);
-        console.log('is multiline: ', isMultiline);
-
+        const vwMax = window.innerWidth * 0.9;
+        const vwLeft = window.innerWidth * 0.1;
         const offset = { top: rect.height / 3, left: 10, right: 10 };
 
-        // Calculate threshold (50vw, middle of the viewport) in pixels
+        /**
+         * Here we decide on title content alignment (left or right).
+         * Calculate threshold (50vw, middle of the viewport) in pixels
+         * 
+        */
         const vwThreshold = round(0.5 * window.innerWidth);
-
         const shouldAlignLeft = rect.x < vwThreshold;
 
         /**
          * NB: Depending on the alignment decision (left or right), the opposite CSS 
          * rule (`right` or `left`) is set to `auto`
-         */
+        */
         const leftAndRight = {
             left: shouldAlignLeft ? `${offset.left}px` : 'auto',
-            right: shouldAlignLeft ? 'auto' : `${offset.right}px`
+            right: shouldAlignLeft ? 'auto' : `${offset.right}px`,
         };
+
+        const maxWidth = shouldAlignLeft ? vwMax - rect.left - offset.left : rect.right - offset.right - vwLeft;
+        const actualWidth = this.assessActualWidth(abbrEl, maxWidth);
+        const width = actualWidth.actualWidth < maxWidth ? actualWidth.actualWidth : maxWidth;
+
+        console.log('actual width: ', actualWidth);
+        console.log('vwMax: ', vwMax);
 
         return {
             left: leftAndRight.left,
-            right: leftAndRight.right
+            right: leftAndRight.right,
+            width: `${width}px`
         };
 
     }
 
-    private isMultilineContent(abbrEl: HTMLElement, maxWidth: number): boolean {
+    private assessActualWidth(abbrEl: HTMLElement, maxWidth: number): { actualWidth: number, isMultiline: boolean; } {
+        const result = { actualWidth: NaN, isMultiline: false };
         const content = getComputedStyle(abbrEl, '::after').content;
-        if (!content || content === 'none' || content === '""') return false;
+
+        if (!content || content === 'none' || content === '""') return result;
 
         // Remove surrounding quotes from content string
         const text = content.replace(/^"(.*)"$/, '$1');
@@ -126,11 +141,12 @@ export default class AbbrTapHandler extends ATapHandler {
 
         document.body.appendChild(span);
 
-        const textWidth = span.offsetWidth;
+        result.actualWidth = span.offsetWidth;
+        result.isMultiline = result.actualWidth > maxWidth;
 
         document.body.removeChild(span);
 
-        return textWidth > maxWidth; // if wider, will wrap → multiline
+        return result; // if wider, will wrap → multiline
     }
 
 }
