@@ -12,3 +12,4 @@ export const ATT_CLASS_ON = 'att-on';
 
 export const ATT_VARIABLE_TITLE_LEFT = '--title-left';
 export const ATT_VARIABLE_TITLE_RIGHT = '--title-right';
+export const ATT_VARIABLE_TITLE_WIDTH = '--title-width';

@@ -1,9 +1,7 @@
 'use strict';
 
 import { ATapHandler } from '@src/ts/core/ATapHandler.js';
-import { ATT_CLASS_ON, ATT_VARIABLE_TITLE_LEFT, ATT_VARIABLE_TITLE_RIGHT } from '@src/ts/core/style.tokens.js';
-
-const ATT_VARIABLE_WIDTH = '--title-width';
+import { ATT_CLASS_ON, ATT_VARIABLE_TITLE_LEFT, ATT_VARIABLE_TITLE_RIGHT, ATT_VARIABLE_TITLE_WIDTH } from '@src/ts/core/style.tokens.js';
 
 type TTitleCoords = { left: string; right: string; width: string; };
 
@@ -46,7 +44,7 @@ export default class AbbrTapHandler extends ATapHandler {
 
             abbrEl.style.removeProperty(ATT_VARIABLE_TITLE_LEFT);
             abbrEl.style.removeProperty(ATT_VARIABLE_TITLE_RIGHT);
-            abbrEl.style.removeProperty(ATT_VARIABLE_WIDTH);
+            abbrEl.style.removeProperty(ATT_VARIABLE_TITLE_WIDTH);
         });
     }
 
@@ -62,7 +60,7 @@ export default class AbbrTapHandler extends ATapHandler {
     }
 
     /**
-     * Sets the tooltip position coordinates on an abbr element.
+     * Sets the tooltip position coordinates and width on an abbr element.
      * 
      * @param {HTMLElement} abbrEl - The abbr element to position
      */
@@ -72,12 +70,12 @@ export default class AbbrTapHandler extends ATapHandler {
 
         abbrEl.style.setProperty(ATT_VARIABLE_TITLE_LEFT, coords.left);
         abbrEl.style.setProperty(ATT_VARIABLE_TITLE_RIGHT, coords.right);
-        abbrEl.style.setProperty(ATT_VARIABLE_WIDTH, coords.width);
+        abbrEl.style.setProperty(ATT_VARIABLE_TITLE_WIDTH, coords.width);
     }
 
     /**
      * Calculates the optimal tooltip CSS position (`left`, `right`) based on viewport-
-     * relative coordinates. 
+     * relative coordinates and its actual with using hidden snap element as a measure.
      * 
      * Align title content left (as in `text-align: left;` CSS rule) 
      * if `abbr` element is in left half of viewport, otherwise align right.
@@ -109,12 +107,10 @@ export default class AbbrTapHandler extends ATapHandler {
             right: shouldAlignLeft ? 'auto' : `${offset.right}px`,
         };
 
+        // Now we decide on which 
         const maxWidth = shouldAlignLeft ? vwMax - rect.left - offset.left : rect.right - offset.right - vwLeft;
         const actualWidth = this.assessActualWidth(abbrEl);
         const width = actualWidth < maxWidth ? actualWidth : this.round(maxWidth);
-
-        console.log('actual width: ', actualWidth);
-        console.log('vwMax: ', vwMax);
 
         return {
             left: leftAndRight.left,
