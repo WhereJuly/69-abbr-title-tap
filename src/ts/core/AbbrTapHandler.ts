@@ -68,6 +68,8 @@ export default class AbbrTapHandler extends ATapHandler {
         // NB: Calculate the top-left coordinates of the abbr:after element.
         const coords = this.titleCoords(abbrEl);
 
+        console.dir(coords);
+
         abbrEl.style.setProperty(ATT_VARIABLE_TITLE_LEFT, coords.left);
         abbrEl.style.setProperty(ATT_VARIABLE_TITLE_RIGHT, coords.right);
         abbrEl.style.setProperty(ATT_VARIABLE_TITLE_WIDTH, coords.width);
@@ -87,15 +89,39 @@ export default class AbbrTapHandler extends ATapHandler {
      */
     private titleCoords(abbrEl: HTMLElement): TTitleCoords {
         const rect = abbrEl.getBoundingClientRect();
-        const vwMax = window.innerWidth * 0.9;
+        const vwMax = window.innerWidth * 0.95;
         const vwLeft = window.innerWidth * 0.1;
         const offset = { top: rect.height / 3, left: 10, right: 10 };
+
+        /**
+         * @problem
+         * This is the treatment for multiline `abbr`.
+         * 
+         * @see https://github.com/WhereJuly/69-abbr-title-tap/issues/1
+         * 
+         * The multiline `abbr` has 2 left coordinates. First is where `abbr` (as inline 
+         * and relative positioned element) line starts. 
+         * 
+         * The second is where the second and all following lines start.
+         * 
+         * Multiline `abbr` title content (tooltip) placed at first `left` coordinate 
+         * will make the tooltip spread beyond the right edge of viewport causing 
+         * the entire view to shift left.
+         * 
+         * Thus for multiline `abbr` we have to set tooltip `left` coordinate adjusting for
+         * the second line `left` to keep the tooltip within given viewport.
+         * 
+         * @solution
+         * We check if the `abbr` is multiline and make the respective adjustment.
+         */
+        const rects = abbrEl.getClientRects();
+        if (rects.length > 1) { offset.left = rects[1]!.left - rects[0]!.left + offset.left; }
 
         /**
          * Here we decide on title content alignment (left or right).
          * Calculate threshold (50vw, middle of the viewport) in pixels
          * 
-        */
+         */
         const vwThreshold = this.round(0.5 * window.innerWidth);
         const shouldAlignLeft = rect.x < vwThreshold;
 
