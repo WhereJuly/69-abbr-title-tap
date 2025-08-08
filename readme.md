@@ -63,7 +63,7 @@ You could also instantiate multiple `TapDetector` instances for handling differe
 
 ## Development
 
-- [Requirements](./.a&cd/requirements.md)
+- [Requirements](https://github.com/WhereJuly/69-abbr-title-tap/blob/master/.a&cd/requirements.md)
 
 ### Running Tests
 
